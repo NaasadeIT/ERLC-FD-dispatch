@@ -1,4 +1,5 @@
 import random
+import time
 
 class Worker:
     def __init__(self, call_sign, skills):
@@ -93,6 +94,16 @@ def clear_calls():
     calls = []
     print("All calls cleared.")
 
+def show_loading():
+    print("Loading...")
+    for i in range(101):
+        time.sleep(0.1)
+        print(f"\r{'[' + '#' * i + ' ' * (100-i) + ']'} {i}% complete", end="", flush=True)
+    print()
+
+print("Welcome to Emergency Services Management System")
+show_loading()
+
 while True:
     print("Enter an option:")
     print("1. Add a call")
@@ -119,23 +130,3 @@ while True:
         clear_calls()
     else:
         print("Invalid option.")
-
-    
-    # Periodic calls
-    if len(calls) > 0:
-        for call in calls:
-            if call.status == "Pending":
-                assigned_worker = assign_worker(call)
-                if assigned_worker == "No available workers for the task":
-                    print(f"No available workers for call {call.call_id} ({call.task}).")
-                else:
-                    print(f"Call {call.call_id} ({call.task}) assigned to worker {assigned_worker}.")
-                    call.status = "Assigned"
-            elif call.status == "Assigned":
-                print(f"Call {call.call_id} ({call.task}) is currently assigned to {assigned_worker}.")
-            else:
-                print(f"Call {call.call_id} ({call.task}) is already closed.")
-    else:
-        print("No current calls.")
-    
-    print("===")
