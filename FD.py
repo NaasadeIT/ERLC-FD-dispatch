@@ -1,5 +1,6 @@
 import random
 import time
+import getpass
 
 class Worker:
     def __init__(self, call_sign, skills):
@@ -100,6 +101,28 @@ def show_loading():
         time.sleep(0.1)
         print(f"\r{'[' + '#' * i + ' ' * (100-i) + ']'} {i}% complete", end="", flush=True)
     print()
+
+# Define the valid ranks and corresponding welcome messages
+ranks = {
+    "volunteer": "Welcome, Volunteer! Please note that this system is intended for commanding officers.",
+    "rookie": "Welcome, Rookie! Good luck on your first day!",
+    "firefighter": "Welcome, Firefighter! Please make sure to add yourself to the system.",
+    "paramedic": "Welcome, Paramedic! Remember to add yourself to the system.",
+    "engineer": "Welcome, Chief! Remember to dispatch yourself too.",
+    "lieutenant": "Welcome, Lieutenant! Please make sure to update the system with your unit's status.",
+    "captain": "Welcome, Captain! Please make sure to update the system with the stations' status.",
+    "chief": "Welcome, Chief! You have full acess to all systems."
+}
+
+# Get the user's rank through a fake login prompt
+print("Please log in to continue:")
+rank = getpass.getpass("Rank: ")
+
+# Check if the user's rank is valid and display the corresponding welcome message
+if rank.lower() in ranks:
+    print(ranks[rank.lower()])
+else:
+    print("Invalid rank. Access denied.")
 
 print("Welcome to Emergency Services Management System")
 show_loading()
