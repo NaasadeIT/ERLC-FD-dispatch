@@ -16,6 +16,7 @@ class Call:
         self.skills_required = skills_required
         self.status = status
         self.assigned_worker = None
+        self.timestamp = time.time()
 
 calls = []
 workers = []
@@ -34,49 +35,6 @@ def assign_worker(call, force_match=False, manual_assign=False):
         return selected_worker
     else:
         return None
-
-def admin_calls_menu():
-    while True:
-        print("Call Administration Options:")
-        print("1. Add call")
-        print("2. Close call")
-        print("3. List calls")
-        print("4. Assign unit manually")
-        print("Q. Quit Call Administration")
-        choice = input("Enter your choice: ").lower()
-        if choice == "1":
-            add_call()
-        elif choice == "2":
-            close_call()
-        elif choice == "3":
-            list_calls()
-        elif choice == "4":
-            manual_assign_call()
-        elif choice == "q":
-            print("Exiting Call Administration Menu...")
-            break
-        else:
-            print("Invalid choice.")
-
-def admin_workers_menu():
-    while True:
-        print("Worker Administration Options:")
-        print("1. Add unit")
-        print("2. Remove unit")
-        print("3. List units")
-        print("Q. Quit Worker Administration")
-        choice = input("Enter your choice: ").lower()
-        if choice == "1":
-            add_worker()
-        elif choice == "2":
-            remove_worker()
-        elif choice == "3":
-            list_workers()
-        elif choice == "q":
-            print("Exiting Worker Administration Menu...")
-            break
-        else:
-            print("Invalid choice.")
 
 def add_call():
     call_id = len(calls) + 1
@@ -171,6 +129,12 @@ def manual_assign_call():
     else:
         print(f"No call found with ID {call_id}.")
 
+def logout():
+    global calls, workers
+    calls = []
+    workers = []
+    print("You have been logged out. All calls and workers have been wiped.")
+
 def show_loading():
     print("Loading...")
     for i in range(101):
@@ -187,18 +151,22 @@ ranks = {
     "engineer": "Welcome, Chief! Remember to dispatch yourself too.",
     "lieutenant": "Welcome, Lieutenant! Please make sure to update the system with your unit's status.",
     "captain": "Welcome, Captain! Please make sure to update the system with the stations' status.",
-    "chief": "Welcome, Chief! You have full acess to all systems."
+    "chief": "Welcome, Chief! You have full access to all systems."
 }
 
-# Get the user's rank through a fake login prompt
-print("Please log in to continue:")
-rank = getpass.getpass("Rank: ")
-
-# Check if the user's rank is valid and display the corresponding welcome message
-if rank.lower() in ranks:
-    print(ranks[rank.lower()])
-else:
-    print("Invalid rank. Access denied.")
+def login():
+    print("Welcome to the Fire Department Dispatch System")
+    print("Please log in to continue:")
+    # Get the user's rank through a fake login prompt
+    rank = getpass.getpass("Rank: ")
+    # Check if the user's rank is valid and display the corresponding welcome message
+    if rank.lower() in ranks:
+        print(ranks[rank.lower()])
+    else:
+        print("Invalid rank. Access denied. You will be logged out in 3 seconds.")
+        time.sleep(3)
+        exit()
+print(login())
 
 time.sleep(3)
 print("""\
@@ -250,22 +218,71 @@ print("""\
     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&&BPYJ77!!!~~!!7?YPG#&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&&##BBBBB#&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     """)
+#ASCII ART ABOVE, DO NOT TOUCH
 print("Welcome to River City's Fire Department and Emergency Medical Services Management System!")
 show_loading()
 
-while True:
-    print("Options:")
-    print("1. Call Administration")
-    print("2. Worker Administration")
-    print("Q. Quit")
-    choice = input("Enter your choice: ").lower()
-    if choice == "1":
-        admin_calls_menu()
-    elif choice == "2":
-        admin_workers_menu()
-    elif choice == "q":
-        print("Thank you for using the FD and EMS management system. Goodbye!")
-        time.sleep(5)
-        break
-    else:
-        print("Invalid choice.")
+def admin_calls_menu():
+    while True:
+        print("Call Administration Options:")
+        print("1. Add call")
+        print("2. Close call")
+        print("3. List calls")
+        print("4. Assign unit manually")
+        print("Q. Quit Call Administration")
+        choice = input("Enter your choice: ").lower()
+        if choice == "1":
+            add_call()
+        elif choice == "2":
+            close_call()
+        elif choice == "3":
+            list_calls()
+        elif choice == "4":
+            manual_assign_call()
+        elif choice == "q":
+            print("Exiting Call Administration Menu...")
+            break
+        else:
+            print("Invalid choice.")
+
+def admin_workers_menu():
+    while True:
+        print("Worker Administration Options:")
+        print("1. Add unit")
+        print("2. Remove unit")
+        print("3. List units")
+        print("Q. Quit Worker Administration")
+        choice = input("Enter your choice: ").lower()
+        if choice == "1":
+            add_worker()
+        elif choice == "2":
+            remove_worker()
+        elif choice == "3":
+            list_workers()
+        elif choice == "q":
+            print("Exiting Worker Administration Menu...")
+            break
+        else:
+            print("Invalid choice.")
+
+def main_menu():
+    while True:
+        print("Main Menu:")
+        print("1. Call Administration")
+        print("2. Worker Administration")
+        print("3. Logout")
+        print("Q. Quit the program")
+        choice = input("Enter your choice: ").lower()
+        if choice == "1":
+            admin_calls_menu()
+        elif choice == "2":
+            admin_workers_menu()
+        elif choice == "3":
+            logout()
+            break
+        elif choice == "q":
+            print("Exiting the program...")
+            break
+        else:
+            print("Invalid choice.")
+print(main_menu())
