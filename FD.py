@@ -49,9 +49,9 @@ def add_call():
     calls.append(call)
     assigned_worker = assign_worker(call)
     if assigned_worker is None:
-        print(f"No available workers for call {call.call_id} ({call.task}).")
+        print(f"No available units for call {call.call_id} ({call.task}).")
     else:
-        print(f"Call {call.call_id} ({call.task}) assigned to worker {assigned_worker.call_sign}.")
+        print(f"Call {call.call_id} ({call.task}) assigned to unit {assigned_worker.call_sign}.")
         call.status = "Assigned"
     
 def close_call():
@@ -69,23 +69,23 @@ def list_calls():
         print(f"Call {call.call_id} - {call.task} - Skills Required: {', '.join(call.skills_required)} - Status: {call.status}")
 
 def add_worker():
-    call_sign = input("Enter the call sign of the worker: ")
-    skills = input("Enter the skills of the worker (comma-separated): ").split(",")
+    call_sign = input("Enter the call sign of the unit: ")
+    skills = input("Enter the skills of the unit (comma-separated): ").split(",")
     worker = Worker(call_sign, skills)
     workers.append(worker)
-    print(f"Worker {call_sign} added.")
+    print(f"Unit {call_sign} added.")
 
 def remove_worker():
-    call_sign = input("Enter the call sign of the worker to remove: ")
+    call_sign = input("Enter the call sign of the unit to remove: ")
     for worker in workers:
         if worker.call_sign == call_sign:
             workers.remove(worker)
-            print(f"Worker {call_sign} removed.")
+            print(f"Unit {call_sign} removed.")
             return
     print(f"No worker found with call sign {call_sign}.")
 
 def list_workers():
-    print("Current workers:")
+    print("Current units:")
     for worker in workers:
         print(f"{worker.call_sign} - Skills: {', '.join(worker.skills)}")
 
@@ -109,9 +109,9 @@ while True:
     print("1. Add a call")
     print("2. Close a call")
     print("3. List current calls")
-    print("4. Add a worker")
-    print("5. Remove a worker")
-    print("6. List all workers")
+    print("4. Add a unit")
+    print("5. Remove a unit")
+    print("6. List all units")
     print("7. Clear all calls")
     user_input = input(">> ")
     if user_input == "1":

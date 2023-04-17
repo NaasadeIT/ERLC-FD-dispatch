@@ -1,0 +1,5 @@
+# OPGAVER
+* Lav login skærm
+* unit kan kun have en task ad gangen
+* manuelt tildel workers 
+* tillad flere workers til en task
