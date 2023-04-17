@@ -111,6 +111,7 @@ def add_call():
         call.status = "Assigned"
 
 def close_call():
+    print(list_calls())
     call_id = int(input("Enter the call ID to close: "))
     for call in calls:
         if call.call_id == call_id:
@@ -199,6 +200,7 @@ if rank.lower() in ranks:
 else:
     print("Invalid rank. Access denied.")
 
+time.sleep(3)
 print("""\
     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&&&#BBBBB#&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&#BPY?7!!~~~!!7?YPB#&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
