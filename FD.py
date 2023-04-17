@@ -142,7 +142,6 @@ def show_loading():
         print(f"\r{'[' + '#' * i + ' ' * (100-i) + ']'} {i}% complete", end="", flush=True)
     print()
 
-# Define the valid ranks and corresponding welcome messages
 ranks = {
     "volunteer": "Welcome, Volunteer! Please note that this system is intended for commanding officers.",
     "rookie": "Welcome, Rookie! Good luck on your first day!",
@@ -166,7 +165,8 @@ def login():
         print("Invalid rank. Access denied. You will be logged out in 3 seconds.")
         time.sleep(3)
         exit()
-print(login())
+
+login()
 
 time.sleep(3)
 print("""\
