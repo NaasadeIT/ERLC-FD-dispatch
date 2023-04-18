@@ -74,9 +74,21 @@ def close_call():
     for call in calls:
         if call.call_id == call_id:
             call.status = "Closed"
+            for skill in call.skills_required:
+                workers_with_skill = [worker for worker in workers if skill in worker.skills and not worker.busy]
+                if not workers_with_skill:
+                    print(f"No available units for skill {skill} for call {call.call_id} ({call.task}).")
+                    return
+                selected_worker = random.choice(workers_with_skill)
+                selected_worker.busy = True
+                if call.assigned_worker is None:
+                    call.assigned_worker = [selected_worker]
+                else:
+                    call.assigned_worker.append(selected_worker)
             print(f"Call {call_id} ({call.task}) closed.")
             return
     print(f"No call found with ID {call_id}.")
+
 
 def list_calls():
     print("Current calls:")
@@ -115,8 +127,9 @@ def clear_calls():
     print("All calls cleared.")
 
 def manual_assign_call():
-    print(list_calls() )
+    print(list_calls())
     call_id = int(input("Enter the call ID to assign a unit to: "))
+    worker_id = input("Enter the worker ID to assign to the call: ")
     for call in calls:
         if call.call_id == call_id:
             assigned_worker = assign_worker(call, force_match=True, manual_assign=True)
@@ -129,11 +142,13 @@ def manual_assign_call():
     else:
         print(f"No call found with ID {call_id}.")
 
+
 def logout():
     global calls, workers
     calls = []
     workers = []
     print("You have been logged out. All calls and workers have been wiped.")
+    login()
 
 def show_loading():
     print("Loading...")
