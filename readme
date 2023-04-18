@@ -9,7 +9,7 @@ To run the script, simply execute the `dispatch.py` file. The script will presen
 1.  Call Administration
 2.  Worker Administration
 3.  Logout
-4. Quit the program
+4.  Quit the program
 
 ### Adding a call
 
@@ -43,13 +43,13 @@ To exit the script, select option Q from the main menu.
  - GSE - Gas station explosion
  - BC - Bridge Collapse
  - MVA - Motor Vehicle Accident
-- PC - Plane Crash
-- SW - Strong Winds
-- TC - Tunnel Collapse
-- OS - Oil Spill
-- CS - Chemical Spill
-- BBF - Building-Bush Fire
-- ALI - Arm-Leg Injury
-- SHA - Stroke-Heart Attack
-- SO - Scattered Oil
-- F - Fall
+ - PC - Plane Crash
+ - SW - Strong Winds
+ - TC - Tunnel Collapse
+ - OS - Oil Spill
+ - CS - Chemical Spill
+ - BBF - Building-Bush Fire
+ - ALI - Arm-Leg Injury
+ - SHA - Stroke-Heart Attack
+ - SO - Scattered Oil
+ - F - Fall
