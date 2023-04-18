@@ -88,7 +88,7 @@ def add_call():
     if not assigned_worker:
         print(f"No available units for call {call.call_id} ({call.task}).")
     else:
-        print(f"Call {call.call_id} ({call.task}) assigned to unit {', '.join([worker.call_sign for worker in assigned_worker])}.")
+        print(f"Call {call.call_id} ({call.task}) assigned to unit(s) {', '.join([worker.call_sign for worker in assigned_worker])}.")
         call.status = "Assigned"
 
 #Defines the function to close a call
