@@ -1,14 +1,17 @@
+#Imports all needed modules
 import random
 import time
 import getpass
 import os
 
+#Defines the class for the worker
 class Worker:
     def __init__(self, call_sign, team):
         self.call_sign = call_sign
         self.team = team.split("-")
         self.busy = False
 
+#Defines the class for the call
 class Call:
     def __init__(self, call_id, task, teams_required, status="Pending"):
         self.call_id = call_id
@@ -18,6 +21,7 @@ class Call:
         self.assigned_worker = []
         self.timestamp = time.time()
 
+#empty lists for calls and workers
 calls = []
 workers = []
 
@@ -38,6 +42,7 @@ task_mapping = {
     "F": ("Fall", "EMS")
 }
 
+#Defines the function to assign a worker to a call
 def assign_worker(call, force_match=False, manual_assign=False):
     required_teams = call.teams_required.split("-")
     num_teams_required = len(required_teams)
@@ -68,6 +73,7 @@ def assign_worker(call, force_match=False, manual_assign=False):
         # There are not enough workers available to handle the call
         return []
     
+#Defines the function to add a call
 def add_call():
     call_id = len(calls) + 1
     task_abbrev = input("Enter the task abbreviation (e.g. GSE for Gas Station Explosion): ")
@@ -85,6 +91,7 @@ def add_call():
         print(f"Call {call.call_id} ({call.task}) assigned to unit {', '.join([worker.call_sign for worker in assigned_worker])}.")
         call.status = "Assigned"
 
+#Defines the function to close a call
 def close_call():
     print(list_calls())
     call_id = int(input("Enter the call ID to close: "))
@@ -108,6 +115,7 @@ def close_call():
     else:
         print("Invalid call ID.")
 
+#Defines the function to list the calls
 def list_calls():
     print("Current calls:")
     for call in calls:
@@ -120,7 +128,7 @@ def list_calls():
             assigned_to = ""
         print(f"Call {call.call_id} - {call.task} - Teams Required: {''.join(call.teams_required)} - Status: {call.status}{assigned_to}")
 
-
+#Defines the function to add a new worker
 def add_worker():
     call_sign = input("Enter the call sign of the unit: ")
     team = input("Enter the team of the unit: ")
@@ -128,6 +136,7 @@ def add_worker():
     workers.append(worker)
     print(f"Unit {call_sign} added.")
 
+#Defines the function to remove a worker
 def remove_worker():
     list_workers()
     call_sign = input("Enter the call sign of the unit to remove: ")
@@ -138,16 +147,19 @@ def remove_worker():
             return
     print(f"No worker found with call sign {call_sign}.")
 
+#Defines the function to list the workers
 def list_workers():
     print("Current units:")
     for worker in workers:
         print(f"{worker.call_sign} - Team: {', '.join(worker.team)} - Busy: {worker.busy}")
 
+#Defines the function to clear the calls
 def clear_calls():
     global calls
     calls = []
     print("All calls cleared.")
 
+#Allows the user to manually assign a call
 def manual_assign_call():
     print(list_calls())
     call_id = int(input("Enter the call ID to assign a unit to: "))
@@ -164,6 +176,7 @@ def manual_assign_call():
     else:
         print(f"No call found with ID {call_id}.")
 
+#Defines the function to log out
 def logout():
     global calls, workers
     calls = []
@@ -172,6 +185,7 @@ def logout():
     print("You have been logged out. All calls and workers have been wiped.")
     login()
 
+#Defines the function to show the loading screen | This can be disabled
 def show_loading():
     print("Loading...")
     for i in range(101):
@@ -179,6 +193,7 @@ def show_loading():
         print(f"\r{'[' + '#' * i + ' ' * (100-i) + ']'} {i}% complete", end="", flush=True)
     print()
 
+#a list of ranks and their corresponding welcome messages for the login function
 ranks = {
     "volunteer": "Welcome, Volunteer! Please note that this system is intended for commanding officers.",
     "rookie": "Welcome, Rookie! Good luck on your first day!",
@@ -190,6 +205,7 @@ ranks = {
     "chief": "Welcome, Chief! You have full access to all systems."
 }
 
+#Defines the login function
 def login():
     print("Welcome to the Fire Department Dispatch System")
     print("Please log in to continue:")
@@ -203,8 +219,10 @@ def login():
         time.sleep(3)
         exit()
 
+#shows the login function
 login()
 
+#shows the ascii art | This can be disabled
 time.sleep(3)
 print(r"""\
  ____  _  _     _____ ____    ____  _  _____ ___  _   _____ _  ____  _____
@@ -223,6 +241,7 @@ print(r"""\
 print("Welcome to River City's Fire Department and Emergency Medical Services Management System!")
 show_loading()
 
+#Defines the call administration menu
 def admin_calls_menu():
     while True:
         print("Call Administration Options:")
@@ -246,6 +265,7 @@ def admin_calls_menu():
         else:
             print("Invalid choice.")
 
+#Defines the worker administration menu
 def admin_workers_menu():
     while True:
         print("Worker Administration Options:")
@@ -266,6 +286,7 @@ def admin_workers_menu():
         else:
             print("Invalid choice.")
 
+#Defines the main menu
 def main_menu():
     while True:
         print("Main Menu:")
@@ -285,5 +306,5 @@ def main_menu():
             print("Exiting the program...")
             break
         else:
-            print("Invalid choice.")
+            print("Invalid choice.")         
 print(main_menu())
