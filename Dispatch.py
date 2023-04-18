@@ -73,6 +73,8 @@ def assign_worker(call, force_match=False, manual_assign=False):
         # There are not enough workers available to handle the call
         return []
     
+#CALL FUNCTIONS BEGIN HERE
+    
 #Defines the function to add a call
 def add_call():
     call_id = len(calls) + 1
@@ -128,6 +130,27 @@ def list_calls():
             assigned_to = ""
         print(f"Call {call.call_id} - {call.task} - Teams Required: {''.join(call.teams_required)} - Status: {call.status}{assigned_to}")
 
+#Allows the user to manually assign a call
+def manual_assign_call():
+    print(list_calls())
+    call_id = int(input("Enter the call ID to assign a unit to: "))
+    worker_id = input("Enter the worker ID to assign to the call: ")
+    for call in calls:
+        if call.call_id == call_id:
+            assigned_worker = assign_worker(call, force_match=True, manual_assign=True)
+            if assigned_worker is None:
+                print(f"No available units for call {call.call_id} ({call.task}).")
+            else:
+                print(f"Call {call.call_id} ({call.task}) assigned to unit {', '.join([worker.call_sign for worker in assigned_worker])}.")
+                call.status = "Assigned"
+            break
+    else:
+        print(f"No call found with ID {call_id}.")
+
+#CALL FUNCTIONS END HERE
+
+#WORKER FUNCTIONS BEGIN HERE
+
 #Defines the function to add a new worker
 def add_worker():
     call_sign = input("Enter the call sign of the unit: ")
@@ -153,28 +176,38 @@ def list_workers():
     for worker in workers:
         print(f"{worker.call_sign} - Team: {', '.join(worker.team)} - Busy: {worker.busy}")
 
-#Defines the function to clear the calls
-def clear_calls():
-    global calls
-    calls = []
-    print("All calls cleared.")
+#WORKER FUNCTIONS END HERE
 
-#Allows the user to manually assign a call
-def manual_assign_call():
-    print(list_calls())
-    call_id = int(input("Enter the call ID to assign a unit to: "))
-    worker_id = input("Enter the worker ID to assign to the call: ")
+#ADMIN FUNCTIONS BEGIN HERE
+
+#Allows the user to manually update the amount of workers required
+def update_workers_required():
+    call_id = int(input("Enter the call ID: "))
+    new_teams_required = input("Enter the new teams required for the call (e.g. FIRE-EMS): ")
     for call in calls:
         if call.call_id == call_id:
-            assigned_worker = assign_worker(call, force_match=True, manual_assign=True)
-            if assigned_worker is None:
-                print(f"No available units for call {call.call_id} ({call.task}).")
-            else:
-                print(f"Call {call.call_id} ({call.task}) assigned to unit {', '.join([worker.call_sign for worker in assigned_worker])}.")
-                call.status = "Assigned"
+            old_teams_required = call.teams_required.split("-")
+            new_teams_required = new_teams_required.split("-")
+            if len(new_teams_required) > len(old_teams_required):
+                additional_teams = set(new_teams_required) - set(old_teams_required)
+                additional_workers = assign_worker(call, force_match=True, manual_assign=False)
+                if not additional_workers:
+                    print(f"No available units for additional teams {', '.join(additional_teams)} for call {call.call_id} ({call.task}).")
+                    break
+                else:
+                    call.assigned_worker += additional_workers  # update the assigned_worker attribute of the call
+                    assigned_workers = ", ".join([worker.call_sign for worker in call.assigned_worker])
+                    print(f"Call {call.call_id} ({call.task}) assigned to additional unit(s) {', '.join([worker.call_sign for worker in additional_workers])}.")
+            call.teams_required = "-".join(new_teams_required)
+            print(f"Call {call.call_id} ({call.task}) teams required updated to {call.teams_required}.")
             break
     else:
-        print(f"No call found with ID {call_id}.")
+        print("Invalid call ID.")
+
+
+#ADMIN FUNCTIONS END HERE
+
+#LOGIN AND LOGOUT FUNCTIONS BEGIN HERE
 
 #Defines the function to log out
 def logout():
@@ -222,6 +255,10 @@ def login():
 #shows the login function
 login()
 
+#LOGIN AND LOGOUT FUNCTIONS END HERE
+
+#LOADING SCREEN BEGIN HERE
+
 #shows the ascii art | This can be disabled
 time.sleep(3)
 print(r"""\
@@ -240,6 +277,10 @@ print(r"""\
 #ASCII ART ABOVE, DO NOT TOUCH
 print("Welcome to River City's Fire Department and Emergency Medical Services Management System!")
 show_loading()
+
+#LOADING SCREEN END HERE
+
+#MENU FUNCTIONS BEGIN HERE
 
 #Defines the call administration menu
 def admin_calls_menu():
@@ -286,13 +327,30 @@ def admin_workers_menu():
         else:
             print("Invalid choice.")
 
+
+#Defines the admin menu
+def admin_menu():
+    while True:
+        print("Admin Menu:")
+        print("1. Update workers required on call")
+        print("Q. Quit Admin Menu")
+        choice = input("Enter your choice: ").lower()
+        if choice == "1":
+            update_workers_required()
+        elif choice == "q":
+            print("Exiting Admin Menu...")
+            break
+        else:
+            print("Invalid choice.")
+
 #Defines the main menu
 def main_menu():
     while True:
         print("Main Menu:")
         print("1. Call Administration")
         print("2. Worker Administration")
-        print("3. Logout")
+        print("3. Admin Menu")
+        print("L. Logout")
         print("Q. Quit the program")
         choice = input("Enter your choice: ").lower()
         if choice == "1":
@@ -300,11 +358,15 @@ def main_menu():
         elif choice == "2":
             admin_workers_menu()
         elif choice == "3":
-            logout()
+            admin_menu()
             break
+        elif choice == "l":
+            logout()
         elif choice == "q":
             print("Exiting the program...")
             break
         else:
             print("Invalid choice.")         
 print(main_menu())
+
+#MENU FUNCTIONS END HERE
