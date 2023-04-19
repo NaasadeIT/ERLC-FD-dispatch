@@ -302,7 +302,7 @@ def admin_calls_menu():
             manual_assign_call()
         elif choice == "q":
             print("Exiting Call Administration Menu...")
-            break
+            main_menu()
         else:
             print("Invalid choice.")
 
