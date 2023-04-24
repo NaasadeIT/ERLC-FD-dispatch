@@ -350,7 +350,6 @@ def admin_workers_menu():
         else:
             print("Invalid choice.")
 
-
 #Defines the admin menu
 def admin_menu():
     while True:
