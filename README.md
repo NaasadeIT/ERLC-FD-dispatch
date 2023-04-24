@@ -11,6 +11,10 @@ To run the script, simply execute the `dispatch.py` file. The script will presen
 3.  Logout
 4.  Quit the program
 
+### User login
+
+As default the system is shipped with a single user called Admin with the password TotallySecurePassword. If you wish to create another user you can do so by entering an invalid login and selecting the option to create a new user. You will be prompted to enter a username, password and rank. The system will then create a new user with the given username, password and rank.
+
 ### Adding a call
 
 To add a new call to the system, select option 1 from the call menu. You will be prompted to enter a task abbreviation (e.g. GSE for Gas Station Explosion). The available task abbreviations and their corresponding tasks and teams required are listed in the `task_mapping` dictionary at the beginning of the script and the end of this file.

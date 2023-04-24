@@ -3,6 +3,7 @@ import random
 import time
 import getpass
 import os
+import json
 
 #Defines the class for the worker
 class Worker:
@@ -227,7 +228,11 @@ def show_loading():
         print(f"\r{'[' + '#' * i + ' ' * (100-i) + ']'} {i}% complete", end="", flush=True)
     print()
 
-#a list of ranks and their corresponding welcome messages for the login function
+# Load the users dictionary from the users.json file
+with open("users.json", "r") as f:
+    users = json.load(f)
+
+# A dictionary of ranks and their corresponding welcome messages
 ranks = {
     "volunteer": "Welcome, Volunteer! Please note that this system is intended for commanding officers.",
     "rookie": "Welcome, Rookie! Good luck on your first day!",
@@ -240,21 +245,38 @@ ranks = {
     "dispatch": "Welcome, Dispatcher! You have full access to all systems.",
 }
 
-#Defines the login function
 def login():
     print("Welcome to the Fire Department Dispatch System")
-    print("Please log in to continue:")
-    # Get the user's rank through a fake login prompt
-    rank = getpass.getpass("Rank: ")
-    # Check if the user's rank is valid and display the corresponding welcome message
-    if rank.lower() in ranks:
+    # Get the user's credentials
+    username = input("Username: ")
+    password = getpass.getpass("Password: ")
+    # Check if the user's credentials are valid
+    if username in users and users[username]["password"] == password:
+        print("Login successful.")
+        # Get the user's rank from the users dictionary
+        rank = users[username]["rank"]
+        # Display the corresponding welcome message for the user's rank
         print(ranks[rank.lower()])
     else:
-        print("Invalid rank. Access denied. You will be logged out in 3 seconds.")
-        time.sleep(3)
-        exit()
+        # Prompt the user to create a new account if their credentials are invalid
+        create_account = input("Invalid credentials. Do you want to create a new account? (y/n): ")
+        if create_account.lower() == "y":
+            new_username = input("Enter a new username: ")
+            new_password = getpass.getpass("Enter a new password: ")
+            rank = input("Enter your rank: ")
+            # Add the new user to the users dictionary with their password and rank
+            users[new_username] = {"password": new_password, "rank": rank}
+            # Save the updated users dictionary to the users.json file
+            with open("users.json", "w") as f:
+                json.dump(users, f)
+            print("Account created. Please log in again.")
+            login()
+        else:
+            print("Access denied. You will be logged out in 3 seconds.")
+            time.sleep(3)
+            exit()
 
-#shows the login function
+#Shows the login screen
 login()
 
 #LOGIN AND LOGOUT FUNCTIONS END HERE
