@@ -53,3 +53,4 @@ To exit the script, select option Q from the main menu.
  - SHA - Stroke-Heart Attack
  - SO - Scattered Oil
  - F - Fall
+ - R - Revive

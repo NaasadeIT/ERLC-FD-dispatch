@@ -39,7 +39,8 @@ task_mapping = {
     "ALI": ("Arm-Leg Injury", "EMS"),
     "SHA": ("Stroke-Heart Attack", "EMS"),
     "SO": ("Scattered Oil", "FIRE-EMS"),
-    "F": ("Fall", "EMS")
+    "F": ("Fall", "EMS"),
+    "R": ("Revive", "EMS")
 }
 
 #Defines the function to assign a worker to a call
