@@ -231,11 +231,12 @@ ranks = {
     "volunteer": "Welcome, Volunteer! Please note that this system is intended for commanding officers.",
     "rookie": "Welcome, Rookie! Good luck on your first day!",
     "firefighter": "Welcome, Firefighter! Please make sure to add yourself to the system.",
-    "paramedic": "Welcome, Paramedic! Remember to add yourself to the system.",
-    "engineer": "Welcome, Chief! Remember to dispatch yourself too.",
-    "lieutenant": "Welcome, Lieutenant! Please make sure to update the system with your unit's status.",
-    "captain": "Welcome, Captain! Please make sure to update the system with the stations' status.",
-    "chief": "Welcome, Chief! You have full access to all systems."
+    "paramedic": "Welcome, Paramedic! Remember to that only ambulances can pickup EMS calls.",
+    "engineer": "Welcome, Chief! Remember that ladders can change a fires outcome!.",
+    "lieutenant": "Welcome, Lieutenant! Please remember to stay active when dispatching.",
+    "captain": "Welcome, Captain! Please make sure to keep all systems active.",
+    "chief": "Welcome, Chief! All Fire and EMS systems are active.",
+    "dispatch": "Welcome, Dispatcher! You have full access to all systems.",
 }
 
 #Defines the login function
@@ -302,7 +303,6 @@ def admin_calls_menu():
             manual_assign_call()
         elif choice == "q":
             print("Exiting Call Administration Menu...")
-            main_menu()
         else:
             print("Invalid choice.")
 
